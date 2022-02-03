@@ -9,3 +9,5 @@ For this project, we are using the Student Performance Data Set from the UCI Mac
 
 
 Hello, How are you today?
+
+I'm good! You?
