@@ -1,6 +1,6 @@
 # MA 5790 Final Project
 
-## Project created by Katie Schmidt and Dana Paquet.
+Project created by Katie Schmidt and Dana Paquet.
 
 This repo was created to hold the code and data files used for the final project in MA 5790: Predictive Modeling at Michigan Technological University. 
 
