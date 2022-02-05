@@ -2,11 +2,7 @@
 
 ## Goal
 
-Predict the final grade (G3) for each student. 
-
-Potentially just the grade in their Portuguese class because there's more observations for Portuguese?
-Could also do two models, one for math, one for Portuguese?
-Do one that predicts both math and Portuguese?
+Predict the final grade (G3) for each student. Using only the portuguese studnets since there's more observations there. 
 
 ## Dataset
 
@@ -51,3 +47,21 @@ Binned Variables (8):
 * Dalc
 * Walc
 * health
+
+## Preprocessing Steps
+
+### Continuous Variables
+1. Graph histograms and box plots to see distribution and outliers
+2. Correct skew (AS NEEDED) with boxcox
+3. Center and scale
+
+### Categorical Variables
+1. Bar charts to see distribution
+2. Check for near zero variance
+3. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)
+
+### All Variables Together
+1. Remove highly correlated predictors (corr >= 85%)
+
+### Continuous Variables
+1. Spatial Sign to remove outliers (IF NEEDED)
