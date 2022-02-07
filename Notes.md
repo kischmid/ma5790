@@ -49,17 +49,17 @@ Continuous Variables (3):
 ## Preprocessing Steps
 
 ### Continuous Variables
-1. Graph histograms and box plots to see distribution and outliers
+1. Graph histograms and box plots to see distribution and outliers   -- Katie
 2. Correct skew (AS NEEDED) with boxcox   -- Done
 3. Center and scale   -- Done
 
 ### Categorical Variables
-1. Bar charts to see distribution
-2. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)
-3. Check for near zero variance
+1. Bar charts to see distribution   -- Katie
+2. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)   -- Dana
+3. Check for near zero variance   -- Dana
 
 ### All Variables Together
-1. Remove highly correlated predictors (corr >= 85%)
+1. Remove highly correlated predictors (corr >= 85%)   -- Dana
 
 ### Continuous Variables
-1. Spatial Sign to remove outliers (IF NEEDED)
+1. Spatial Sign to remove outliers   -- Dana
