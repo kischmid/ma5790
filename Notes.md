@@ -59,7 +59,13 @@ Continuous Variables (3):
 3. Check for near zero variance   -- Dana
 
 ### All Variables Together
-1. Remove highly correlated predictors (corr >= 85%)   -- Dana
+1. Remove highly correlated predictors (corr >= 90%)   -- Dana
 
 ### Continuous Variables
 1. Spatial Sign to remove outliers   -- Dana
+
+## Things to Make Sure We Do
+* When showing distribution of predictors, use percent as y, not count
+* Do remove correlation=1, otherwise you'll have problems
+* Have summary of what is left after preprocessing
+* Make sure we are done within 10 minutes
