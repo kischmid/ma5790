@@ -15,3 +15,61 @@ stu.target <- student$G3
 hist(stu.target, main="Distribution of Final Grade", xlab="Final Grade")
 # skewness = -0.9087 => moderately skewed
 skewness(stu.target)
+
+
+# check for missing values in all the data
+# no missing data
+image(is.na(student), main="Missing Values in Student Data", xlab="Observation",
+      ylab="Predictor", col.axis="white")
+
+
+# separate predictors into continuous, categorical, and binary
+# Note: categorical and binary will be almost the same,
+#       except when making dummy variables binary will only have one output
+#       column while categorical may have several
+stu.continuous <- student[,c("age","failures","absences")]
+stu.categorical <- student[,c("Medu", "Fedu", "Mjob", "Fjob", "reason", "guardian", "traveltime", "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health")]
+stu.binary <- student[,c("school", "sex", "address", "famsize", "Pstatus", "schoolsup", "famsup", "paid", "activities", "nursery", "higher", "internet", "romantic")]
+
+
+
+# check skew of continuous predictors
+apply(stu.continuous, 2, skewness)
+# failures and absences are highly skewed (skew > 1.0)
+
+# apply BoxCox transformations
+# add 0.1 to avoid values = 0
+failuresTrans <- BoxCoxTrans(stu.continuous$failures+0.1)
+failures.boxcox <- predict(failuresTrans, stu.continuous$failures+0.1)
+# original = 3.0784
+# boxcox = 1.9119
+skewness(failures.boxcox)
+
+absencesTrans <- BoxCoxTrans(stu.continuous$absences+0.1)
+absences.boxcox <- predict(absencesTrans, stu.continuous$absences+0.1)
+# original = 2.0114
+# boxcox = -0.2600
+skewness(absences.boxcox)
+
+# Side by side histogram comparisons
+par(mfrow=c(2,2))
+hist(stu.continuous$failures, main="Distribution of Failures \nbefore Box and Cox", xlab="failures")
+hist(failures.boxcox, main="Distribution of Failures \nafter Box and Cox", xlab="failures")
+hist(stu.continuous$absences, main="Distribution of Absences \nbefore Box and Cox", xlab="absences")
+hist(absences.boxcox, main="Distribuiton of Absences \nafter Box and Cox", xlab="absences")
+
+stu.continuous.boxcox <- data.frame(age = stu.continuous$age, 
+                                    failures = failures.boxcox, 
+                                    absences = absences.boxcox)
+
+# center and scale continuous predictors
+stu.continuous.centerScale <- as.data.frame(scale(stu.continuous.boxcox))
+apply(stu.continuous.centerScale, 2, mean) # means are appx = 0
+var(stu.continuous.centerScale)            # variance = 1.0
+
+# Histograms after center and scale
+par(mfrow=c(3,1))
+hist(stu.continuous.centerScale$age, main="Distribution of Age", xlab="age")
+hist(stu.continuous.centerScale$failures, main="Distribution of Failures", xlab="failures")
+hist(stu.continuous.centerScale$absences, main="Distribution of Absences", xlab="absences")
+
