@@ -24,7 +24,7 @@ Binary Variables (13):
 * internet
 * romantic
 
-Categorical Variables (6):
+Categorical Variables (14):
 
 * Medu
 * Fedu
@@ -32,13 +32,6 @@ Categorical Variables (6):
 * Fjob
 * reason
 * guardian
-
-Continuous Variables (3):
-* age
-* failures
-* absences
-
-Binned Variables (8):
 * traveltime
 * studytime
 * famrel
@@ -47,6 +40,11 @@ Binned Variables (8):
 * Dalc
 * Walc
 * health
+
+Continuous Variables (3):
+* age
+* failures
+* absences
 
 ## Preprocessing Steps
 
@@ -57,8 +55,8 @@ Binned Variables (8):
 
 ### Categorical Variables
 1. Bar charts to see distribution
-2. Check for near zero variance
-3. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)
+2. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)
+3. Check for near zero variance
 
 ### All Variables Together
 1. Remove highly correlated predictors (corr >= 85%)
