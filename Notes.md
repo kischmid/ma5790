@@ -50,8 +50,8 @@ Continuous Variables (3):
 
 ### Continuous Variables
 1. Graph histograms and box plots to see distribution and outliers
-2. Correct skew (AS NEEDED) with boxcox
-3. Center and scale
+2. Correct skew (AS NEEDED) with boxcox   -- Done
+3. Center and scale   -- Done
 
 ### Categorical Variables
 1. Bar charts to see distribution
