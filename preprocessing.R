@@ -122,22 +122,29 @@ hist(stu.continuous.centerScale$absences, main="Distribution of Absences \nafter
 
 # Changing Categorical variables to dummy variables
 dummy <- fastDummies::dummy_cols(stu.categorical)
-knitr::kable(dummy)
+dummy <- dummy[15:ncol(dummy)]
 #binary
 dummy2 <-fastDummies::dummy_cols(stu.binary)
-knitr::kable(dummy2)
+dummy2 <- dummy2[, c(14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38)]
+
+# combine dummy categoricals together
+stu.categorical.dummy <- data.frame(dummy, dummy2)
+colnames(stu.categorical.dummy) <- c(colnames(dummy), colnames(dummy2))
 
 #Checking for near-zero variance
-nearZeroVar(stu)
-nearZeroVar(stu.categorical)
-nearZeroVar(dummy)
+nearZeroVar(stu.categorical.dummy)
+#Dropped problem predict from near-zero variance
+stu.categorical.dummy <- stu.categorical.dummy[,-7]
 
+#Combine all predictors
+stu.all <- data.frame(stu.categorical.dummy, stu.continuous.centerScale)
+colnames(stu.all) <- c(colnames(stu.categorical.dummy), colnames(stu.continuous.centerScale))
 
 #Remove highly-correlated predictors
-df = cor(dummy)
+df = cor(stu.all)
 hc = findCorrelation(df, cutoff=0.9) #any value as a "cutoff"
 hc = sort(hc)
-reduced = dummy[,-c(hc)]
+reduced = stu.all[,-c(hc)]
 print (reduced)
 
 #Spatial Sign to remove outliers
