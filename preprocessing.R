@@ -6,8 +6,23 @@
 # libraries
 library(caret)
 library(e1071)
+library(readr)
+library(knitr)
+library(car)
+library(tidyverse)
+library(MASS)
+library(corrgram)
+library(psych)
+library(moments)
+library(mice)
+library(Amelia)
+library(kableExtra)
+library(mlbench)
+library(corrplot)
+library(impute)
+library(fastDummies)
 
-# read in data 
+# read in data
 # set your current working directory to the project folder using the following command
 # setwd("C:/...")
 student <- read.csv("data/student-por.csv", header=TRUE, sep=";")
@@ -24,9 +39,9 @@ stu.binary <- student[,c("school", "sex", "address", "famsize", "Pstatus", "scho
 ################# DISTRIBUTION OF CONTINUOUS VARS #################
 par(mfrow=c(3,2))
 for (i in 1:ncol(stu.continuous)) {
-  hist(stu.continuous[, i], main=paste("Distribution of ", colnames(stu.continuous)[i]), 
+  hist(stu.continuous[, i], main=paste("Distribution of ", colnames(stu.continuous)[i]),
        xlab=colnames(stu.continuous)[i])
-  boxplot(stu.continuous[, i], main=paste("Distribution of ", colnames(stu.continuous)[i]), 
+  boxplot(stu.continuous[, i], main=paste("Distribution of ", colnames(stu.continuous)[i]),
           xlab=colnames(stu.continuous)[i], horizontal=TRUE)
 }
 
@@ -85,8 +100,8 @@ hist(failures.boxcox, main="Distribution of Failures \nafter Box and Cox", xlab=
 hist(stu.continuous$absences, main="Distribution of Absences \nbefore Box and Cox", xlab="absences")
 hist(absences.boxcox, main="Distribuiton of Absences \nafter Box and Cox", xlab="absences")
 
-stu.continuous.boxcox <- data.frame(age = stu.continuous$age, 
-                                    failures = failures.boxcox, 
+stu.continuous.boxcox <- data.frame(age = stu.continuous$age,
+                                    failures = failures.boxcox,
                                     absences = absences.boxcox)
 
 
@@ -105,3 +120,30 @@ hist(stu.continuous.centerScale$failures, main="Distribution of Failures \nafter
 hist(stu.continuous.boxcox$absences, main="Distribution of Absences \nbefore Center and Scale", xlab="absences")
 hist(stu.continuous.centerScale$absences, main="Distribution of Absences \nafter Center and Scale", xlab="absences")
 
+# Changing Categorical variables to dummy variables
+dummy <- fastDummies::dummy_cols(stu.categorical)
+knitr::kable(dummy)
+#binary
+dummy2 <-fastDummies::dummy_cols(stu.binary)
+knitr::kable(dummy2)
+
+#Checking for near-zero variance
+nearZeroVar(stu)
+nearZeroVar(stu.categorical)
+nearZeroVar(dummy)
+
+
+#Remove highly-correlated predictors
+df = cor(dummy)
+hc = findCorrelation(df, cutoff=0.9) #any value as a "cutoff"
+hc = sort(hc)
+reduced = dummy[,-c(hc)]
+print (reduced)
+
+#Spatial Sign to remove outliers
+a <- spatialSign(stu.continuous.centerScale)
+par(mfrow=c(3,2))
+for (i in 1:ncol(a)) {
+  boxplot(a[, i], main=paste("Distribution of ", colnames(a)[i]),
+          xlab=colnames(a)[i], horizontal=TRUE)
+}
