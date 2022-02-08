@@ -1,6 +1,8 @@
 # MA 5790 Final Project
 # Data Preprocessing
 
+
+################# SET UP #################
 # libraries
 library(caret)
 library(e1071)
@@ -10,19 +12,6 @@ library(e1071)
 # setwd("C:/...")
 student <- read.csv("data/student-por.csv", header=TRUE, sep=";")
 stu.target <- student$G3
-
-# view distribution and skewness of target
-hist(stu.target, main="Distribution of Final Grade", xlab="Final Grade")
-# skewness = -0.9087 => moderately skewed
-skewness(stu.target)
-
-
-# check for missing values in all the data
-# no missing data
-image(is.na(student), main="Missing Values in Student Data", xlab="Observation",
-      ylab="Predictor", col.axis="white")
-
-
 # separate predictors into continuous, categorical, and binary
 # Note: categorical and binary will be almost the same,
 #       except when making dummy variables binary will only have one output
@@ -32,7 +21,45 @@ stu.categorical <- student[,c("Medu", "Fedu", "Mjob", "Fjob", "reason", "guardia
 stu.binary <- student[,c("school", "sex", "address", "famsize", "Pstatus", "schoolsup", "famsup", "paid", "activities", "nursery", "higher", "internet", "romantic")]
 
 
+################# DISTRIBUTION OF CONTINUOUS VARS #################
+par(mfrow=c(3,2))
+for (i in 1:ncol(stu.continuous)) {
+  hist(stu.continuous[, i], main=paste("Distribution of ", colnames(stu.continuous)[i]), 
+       xlab=colnames(stu.continuous)[i])
+  boxplot(stu.continuous[, i], main=paste("Distribution of ", colnames(stu.continuous)[i]), 
+          xlab=colnames(stu.continuous)[i], horizontal=TRUE)
+}
 
+
+################# DISTRIBUTION OF CATEGORICAL VARS #################
+par(mfrow=c(3,5))
+for (i in 1:ncol(stu.categorical)) {
+  barplot(table(stu.categorical[, i]), main=paste("Distribution of ", colnames(stu.categorical)[i]),
+           xlab=colnames(stu.categorical)[i])
+}
+par(mfrow=c(3,5))
+for(i in 1:ncol(stu.binary)) {
+  barplot(table(stu.binary[, i]), main=paste("Distribution of ", colnames(stu.categorical)[i]),
+          xlab=colnames(stu.categorical)[i])
+}
+
+
+################# DISTRIBUTION OF TARGET #################
+# view distribution and skewness of target
+hist(stu.target, main="Distribution of Final Grade", xlab="Final Grade")
+# skewness = -0.9087 => moderately skewed
+skewness(stu.target)
+
+
+################# MISSING DATA #################
+# check for missing values in all the data
+# no missing data
+par(mfrow=c(1,1))
+image(!is.na(student), main="Missing Values in Student Data", xlab="Observation",
+      ylab="Predictor", col.axis="white")
+
+
+################# SKEWNESS #################
 # check skew of continuous predictors
 apply(stu.continuous, 2, skewness)
 # failures and absences are highly skewed (skew > 1.0)
@@ -62,14 +89,19 @@ stu.continuous.boxcox <- data.frame(age = stu.continuous$age,
                                     failures = failures.boxcox, 
                                     absences = absences.boxcox)
 
+
+################# CENTER AND SCALE #################
 # center and scale continuous predictors
 stu.continuous.centerScale <- as.data.frame(scale(stu.continuous.boxcox))
 apply(stu.continuous.centerScale, 2, mean) # means are appx = 0
 var(stu.continuous.centerScale)            # variance = 1.0
 
 # Histograms after center and scale
-par(mfrow=c(3,1))
-hist(stu.continuous.centerScale$age, main="Distribution of Age", xlab="age")
-hist(stu.continuous.centerScale$failures, main="Distribution of Failures", xlab="failures")
-hist(stu.continuous.centerScale$absences, main="Distribution of Absences", xlab="absences")
+par(mfrow=c(3,2))
+hist(stu.continuous.boxcox$age, main="Distribution of Age \nbefore Center and Scale", xlab="age")
+hist(stu.continuous.centerScale$age, main="Distribution of Age \nafter Center and Scale", xlab="age")
+hist(stu.continuous.boxcox$failures, main="Distribution of Failures \nbefore Center and Scale", xlab="failures")
+hist(stu.continuous.centerScale$failures, main="Distribution of Failures \nafter Center and Scale", xlab="failures")
+hist(stu.continuous.boxcox$absences, main="Distribution of Absences \nbefore Center and Scale", xlab="absences")
+hist(stu.continuous.centerScale$absences, main="Distribution of Absences \nafter Center and Scale", xlab="absences")
 
