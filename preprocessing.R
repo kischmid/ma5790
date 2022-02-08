@@ -121,11 +121,13 @@ hist(stu.continuous.boxcox$absences, main="Distribution of Absences \nbefore Cen
 hist(stu.continuous.centerScale$absences, main="Distribution of Absences \nafter Center and Scale", xlab="absences")
 
 # Changing Categorical variables to dummy variables
-dummy <- fastDummies::dummy_cols(stu.categorical)
-dummy <- dummy[15:ncol(dummy)]
+dmy1 <- dummyVars(" ~ .", data = as.data.frame(apply(stu.categorical, 2, as.character)))
+dummy <- data.frame(predict(dmy1, newdata = as.data.frame(apply(stu.categorical, 2, as.character))))
 #binary
-dummy2 <-fastDummies::dummy_cols(stu.binary)
-dummy2 <- dummy2[, c(14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38)]
+dmy2 <- dummyVars(" ~ .", data = as.data.frame(apply(stu.binary, 2, as.character)))
+dummy2 <- data.frame(predict(dmy2, newdata = as.data.frame(apply(stu.binary, 2, as.character))))
+dummy2 <- dummy2[, c(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26)]
+
 
 # combine dummy categoricals together
 stu.categorical.dummy <- data.frame(dummy, dummy2)
