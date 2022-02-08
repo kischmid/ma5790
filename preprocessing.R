@@ -134,25 +134,36 @@ stu.categorical.dummy <- data.frame(dummy, dummy2)
 colnames(stu.categorical.dummy) <- c(colnames(dummy), colnames(dummy2))
 
 #Checking for near-zero variance
-nearZeroVar(stu.categorical.dummy)
+nzero <- nearZeroVar(stu.categorical.dummy)
 #Dropped problem predict from near-zero variance
-stu.categorical.dummy <- stu.categorical.dummy[,-7]
+stu.categorical.dummy <- stu.categorical.dummy[,-nzero]
 
 #Combine all predictors
 stu.all <- data.frame(stu.categorical.dummy, stu.continuous.centerScale)
 colnames(stu.all) <- c(colnames(stu.categorical.dummy), colnames(stu.continuous.centerScale))
 
 #Remove highly-correlated predictors
-df = cor(stu.all)
-hc = findCorrelation(df, cutoff=0.9) #any value as a "cutoff"
-hc = sort(hc)
-reduced = stu.all[,-c(hc)]
-print (reduced)
+par(mfrow=c(1,1))
+corrM <- cor(stu.all)
+corrplot(corrM, method="color")
+hc <- findCorrelation(corrM, cutoff=0.85) #any value as a "cutoff"
+length(hc)
+hc
+stu.all.noCorr <- stu.all[,-c(hc)]
 
 #Spatial Sign to remove outliers
 a <- spatialSign(stu.continuous.centerScale)
-par(mfrow=c(3,2))
+par(mfrow=c(3,1))
 for (i in 1:ncol(a)) {
   boxplot(a[, i], main=paste("Distribution of ", colnames(a)[i]),
           xlab=colnames(a)[i], horizontal=TRUE)
 }
+
+# add everything back together into one data frame
+stu.all.noCorr[,70:72] <- a
+
+student.final <- stu.all.noCorr
+student.final[73] <- stu.target
+colnames(student.final)[73] <- "G3"
+
+write.csv(student.final, "data/preprocessed.csv")
