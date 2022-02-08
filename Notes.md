@@ -49,12 +49,12 @@ Continuous Variables (3):
 ## Preprocessing Steps
 
 ### Continuous Variables
-1. Graph histograms and box plots to see distribution and outliers   -- Katie
+1. Graph histograms and box plots to see distribution and outliers   -- Done
 2. Correct skew (AS NEEDED) with boxcox   -- Done
 3. Center and scale   -- Done
 
 ### Categorical Variables
-1. Bar charts to see distribution   -- Katie
+1. Bar charts to see distribution   -- Done
 2. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)   -- Dana
 3. Check for near zero variance   -- Dana
 
