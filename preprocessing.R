@@ -54,8 +54,8 @@ for (i in 1:ncol(stu.categorical)) {
 }
 par(mfrow=c(3,5))
 for(i in 1:ncol(stu.binary)) {
-  barplot(table(stu.binary[, i]), main=paste("Distribution of ", colnames(stu.categorical)[i]),
-          xlab=colnames(stu.categorical)[i])
+  barplot(table(stu.binary[, i]), main=paste("Distribution of ", colnames(stu.binary)[i]),
+          xlab=colnames(stu.binary)[i])
 }
 
 
