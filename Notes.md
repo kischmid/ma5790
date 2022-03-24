@@ -55,14 +55,14 @@ Continuous Variables (3):
 
 ### Categorical Variables
 1. Bar charts to see distribution   -- Done
-2. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)   -- Dana
-3. Check for near zero variance   -- Dana
+2. Convert to dummy variables (binary one column of 0/1, everthing else several 0/1 columns)   -- Done
+3. Check for near zero variance   -- Done
 
 ### All Variables Together
-1. Remove highly correlated predictors (corr >= 90%)   -- Dana
+1. Remove highly correlated predictors (corr >= 90%)   -- Done
 
 ### Continuous Variables
-1. Spatial Sign to remove outliers   -- Dana
+1. Spatial Sign to remove outliers   -- Done
 
 ## Things to Make Sure We Do
 * When showing distribution of predictors, use percent as y, not count
