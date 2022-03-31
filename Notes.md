@@ -69,3 +69,9 @@ Continuous Variables (3):
 * Do remove correlation=1, otherwise you'll have problems
 * Have summary of what is left after preprocessing
 * Make sure we are done within 10 minutes
+
+## Modeling Steps
+
+### Linear Models (Dana)
+
+### Non-Linear Models (Katie)
