@@ -194,19 +194,19 @@ grade_test <- grade[-trainRows]
 
 
 ########## Linear Models ##########
-ctrl <- trainControl(method = "cv", number = 3, repeats = 5)
+ctrl <- trainControl(method = "cv", number = 10)
 ########## Ridge Model ###########
 ridgemod <- train(
   x = x_train,
   y = grade_train,
   method = "ridge",
   tuneLength = 20,
-  trControl = ctrl)
+  trControl = ctrl,
+  metric = "Rsquared")
 ridgemod
-### RMSE plot
+### plot
 plot(ridgemod)
-### R2 plot
-plot(ridgemod, metric = "Rsquared")
+### Test
 ridgetest<-postResample(predict(ridgemod, x_test),grade_test)
 ridgetest
 ########## Lasso Model ##########
@@ -215,12 +215,12 @@ lassomod <- train(
   y = grade_train,
   method = "lasso",
   tuneLength = 20,
-  trControl = ctrl)
+  trControl = ctrl,
+  metric = "Rsquared")
 lassomod
-### RMSE plot
+### plot
 plot(lassomod)
-### R2 plot
-plot(lassomod, metric = "Rsquared")
+### Test
 lassotest<-postResample(predict(lassomod, x_test),grade_test)
 lassotest
 ######### ENET Model ############
@@ -230,12 +230,12 @@ enetmod <- train(
   y = grade_train,
   method = "enet",
   tuneLength = 20,
-  trControl = ctrl)
+  trControl = ctrl,
+  metric = "Rsquared")
 enetmod
-### RMSE plot
+### plot
 plot(enetmod)
-### R2 plot
-plot(enetmod, metric = "Rsquared")
+### Test
 eneest<-postResample(predict(enetmod, x_test),grade_test)
 eneest
 ######### Linear Model ###########
@@ -244,12 +244,12 @@ lmmod <- train(
   y = grade_train,
   method = "lm",
   tuneLength = 20,
-  trControl = ctrl)
+  trControl = ctrl,
+  metric = "Rsquared")
 lmmod
-### RMSE plot
+### plot
 plot(lmmod)
-### R2 plot
-plot(lmmod, metric = "Rsquared")
+### Test
 lmtest<-postResample(predict(lmmod, x_test),grade_test)
 lmtest
 ########## Variable Importance of Best Linear Model #######
