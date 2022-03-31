@@ -75,3 +75,7 @@ Continuous Variables (3):
 ### Linear Models (Dana)
 
 ### Non-Linear Models (Katie)
+* Neural Network    --Done
+* MARS Model        --Done
+* SVM               --Done
+* KNN               --Done
