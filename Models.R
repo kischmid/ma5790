@@ -253,11 +253,10 @@ plot(lmmod, metric = "Rsquared")
 lmtest<-postResample(predict(lmmod, x_test),grade_test)
 lmtest
 ########## Variable Importance of Best Linear Model #######
-### lasso and lm were best
-varImp(lassomod)
-plot(varImp(lassomod))
-varImp(lmmod)
-plot(varImp(lmmod))
+### ENET was best
+varImp(enetmod)
+plot(varImp(enetmod))
+
 
 
 
