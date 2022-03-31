@@ -25,8 +25,57 @@ grade_test <- grade[-trainRows]
 
 ########## Linear Models ##########
 
+## ----linear-setup
+ctrl <- trainControl(method = "cv", number = 10)
 
+## ----ridge
+ridgemod <- train(
+  x = x_train,
+  y = grade_train,
+  method = "ridge",
+  tuneLength = 20,
+  trControl = ctrl,
+  metric = "Rsquared")
+ridgemod
+### plot
+plot(ridgemod)
 
+## ----lasso
+lassomod <- train(
+  x = x_train,
+  y = grade_train,
+  method = "lasso",
+  tuneLength = 20,
+  trControl = ctrl,
+  metric = "Rsquared")
+lassomod
+### plot
+plot(lassomod)
+
+## ----enet
+options(max.print=1000000)
+enetmod <- train(
+  x = x_train,
+  y = grade_train,
+  method = "enet",
+  tuneLength = 20,
+  trControl = ctrl,
+  metric = "Rsquared")
+enetmod
+### plot
+plot(enetmod)
+
+## ----linear
+lmmod <- train(
+  x = x_train,
+  y = grade_train,
+  method = "lm",
+  tuneLength = 20,
+  trControl = ctrl,
+  metric = "Rsquared")
+lmmod
+### plot
+plot(lmmod)
 
 
 
@@ -80,6 +129,10 @@ plot(knnTrain)
 
 
 ########## TEST SET EVALUATION ##########
+
+## ----enet-test
+eneest <- postResample(predict(enetmod, x_test),grade_test)
+eneest
 
 ## ----svm-test
 svm_pred <- predict(svmTrain, newdata = x_test)
