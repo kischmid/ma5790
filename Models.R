@@ -201,8 +201,7 @@ ridgemod <- train(
   y = grade_train,
   method = "ridge",
   tuneLength = 20,
-  trControl = ctrl,
-  preProcess = c("BoxCox", "knnImpute"))
+  trControl = ctrl)
 ridgemod
 ### RMSE plot
 plot(ridgemod)
@@ -216,8 +215,7 @@ lassomod <- train(
   y = grade_train,
   method = "lasso",
   tuneLength = 20,
-  trControl = ctrl,
-  preProcess = c("BoxCox", "knnImpute"))
+  trControl = ctrl)
 lassomod
 ### RMSE plot
 plot(lassomod)
@@ -226,13 +224,13 @@ plot(lassomod, metric = "Rsquared")
 lassotest<-postResample(predict(lassomod, x_test),grade_test)
 lassotest
 ######### ENET Model ############
+options(max.print=1000000)
 enetmod <- train(
   x = x_train,
   y = grade_train,
   method = "enet",
   tuneLength = 20,
-  trControl = ctrl,
-  preProcess = c("BoxCox", "knnImpute"))
+  trControl = ctrl)
 enetmod
 ### RMSE plot
 plot(enetmod)
@@ -246,8 +244,7 @@ lmmod <- train(
   y = grade_train,
   method = "lm",
   tuneLength = 20,
-  trControl = ctrl,
-  preProcess = c("BoxCox", "knnImpute"))
+  trControl = ctrl)
 lmmod
 ### RMSE plot
 plot(lmmod)
