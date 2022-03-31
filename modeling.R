@@ -79,3 +79,13 @@ print(knnTrain)
 plot(knnTrain)
 
 
+########## TEST SET EVALUATION ##########
+
+## ----svm-test
+svm_pred <- predict(svmTrain, newdata = x_test)
+print(postResample(pred=svm_pred, obs=grade_test))
+
+## ----svm-varImp
+plot(varImp(svmTrain), top=20)
+
+
