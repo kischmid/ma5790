@@ -12,7 +12,7 @@ setwd("C:\\Users\\kathe\\Documents\\MTU\\Spring2022\\MA 5790\\Final Project")
 student <- read.csv("./data/preprocessed.csv")
 grade <- student[, "G3"]
 descriptors <- student[, -73]
-
+ctrl <- trainControl(method = "cv", number = 10)
 
 ## ----data-splitting
 set.seed(42)
@@ -23,10 +23,9 @@ grade_train <- grade[trainRows]
 grade_test <- grade[-trainRows]
 
 
-########## Linear Models ##########
 
-## ----linear-setup
-ctrl <- trainControl(method = "cv", number = 10)
+## ----linear
+########## Linear Models ##########
 
 ## ----ridge
 ridgemod <- train(
@@ -37,7 +36,7 @@ ridgemod <- train(
   trControl = ctrl,
   metric = "Rsquared")
 ridgemod
-### plot
+## ----plot-ridge
 plot(ridgemod)
 
 ## ----lasso
@@ -49,7 +48,7 @@ lassomod <- train(
   trControl = ctrl,
   metric = "Rsquared")
 lassomod
-### plot
+## ----plot-lasso
 plot(lassomod)
 
 ## ----enet
@@ -62,7 +61,7 @@ enetmod <- train(
   trControl = ctrl,
   metric = "Rsquared")
 enetmod
-### plot
+## ----plot-enet
 plot(enetmod)
 
 ## ----linear
@@ -74,14 +73,22 @@ lmmod <- train(
   trControl = ctrl,
   metric = "Rsquared")
 lmmod
-### plot
+## ----plot-linear
 plot(lmmod)
 
+## ----pls
+set.seed(810)
+plsTune <- train(x=x_train, y=grade_train, method = "pls", tuneLength = 20, 
+                 trControl = ctrl, metric="Rsquared")
+plsTune
+## ----plot-pls
+plot(plsTune)
 
 
+## ----non-linear
 ########## Non-Linear Models ##########
 
-## ----neural-net
+## ----nnet
 set.seed(802)
 nnetGrid <- expand.grid(.decay = c(0, 0.01, .1),
                         .size = c(1:10),
@@ -96,6 +103,7 @@ nnetTune <- train(x=x_train, y=grade_train,
                   maxit = 500,
                   metric="Rsquared")
 print(nnetTune)
+## ----plot-nnet
 plot(nnetTune)
 
 ## ----mars
@@ -107,6 +115,7 @@ marsTrain <- train(x=x_train, y=grade_train,
                         trControl=trainControl(method="cv", number=10), 
                         tuneGrid=marsGrid)
 print(marsTrain)
+## ----plot-mars
 plot(marsTrain)
 
 ## ----svm
@@ -117,6 +126,7 @@ svmTrain <- train(x=x_train, y=grade_train,
                   metric="Rsquared",
                   trControl = trainControl(method = "cv", number=10))
 print(svmTrain)
+## ----plot-svm
 ggplot(svmTrain)+coord_trans(x='log2')
 
 ## ----knn
@@ -125,9 +135,11 @@ knnTrain <- train(x=x_train, y=grade_train, method="knn",
                   tuneLength=15, metric="Rsquared", 
                   trControl=trainControl(method="cv", number=10))
 print(knnTrain)
+## ----plot-knn
 plot(knnTrain)
 
 
+## ----test
 ########## TEST SET EVALUATION ##########
 
 ## ----enet-test
